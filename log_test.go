@@ -11,7 +11,7 @@ import (
 
 func TestFatal(t *testing.T) {
 	log.SetPriority(log.Pinfo)
-	log.SetLayouts(log.Ldefault | log.Lpriority | log.Llongfile)
+	log.SetLayouts(log.Lstd | log.Lpriority | log.Llongfile)
 	log.Fatal("=====fatal=====")
 	log.Error("=====error=====")
 	log.Warn("=====warn=====")
