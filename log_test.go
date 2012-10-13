@@ -10,7 +10,12 @@ import (
 )
 
 func TestFatal(t *testing.T) {
-	log.SetPriority(log.Ptrace)
+	log.SetPriority(log.Pinfo)
 	log.SetLayouts(log.Ldefault | log.Lpriority | log.Llongfile)
-	log.Debug("aaa")
+	log.Fatal("=====fatal=====")
+	log.Error("=====error=====")
+	log.Warn("=====warn=====")
+	log.Info("=====info=====")
+	log.Debug("=====debug=====")
+	log.Trace("=====trace=====")
 }
