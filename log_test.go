@@ -5,9 +5,9 @@
 package log_test
 
 import (
-	"../log"
-	"../log/layout"
-	"../log/level"
+	"github.com/oneslang/log"
+	"github.com/oneslang/log/layout"
+	"github.com/oneslang/log/level"
 	"testing"
 )
 

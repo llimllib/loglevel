@@ -5,8 +5,8 @@
 package log
 
 import (
-	"./layout"
-	"./level"
+	"github.com/oneslang/log/layout"
+	"github.com/oneslang/log/level"
 	"io"
 	"log"
 )
