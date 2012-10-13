@@ -11,14 +11,14 @@ import (
 
 var std *Logger = New(os.Stderr)
 
-// Levels returns the output Levels for the standard logger.
-func Levels() int {
-	return std.Levels()
+// Priority returns the output priority for the standard logger.
+func Priority() int {
+	return std.Priority()
 }
 
-// SetLevels sets the output Levels for the standard logger.
-func SetLevels(levels int) {
-	std.SetLevels(levels)
+// SetPriority sets the output priority for the standard logger.
+func SetPriority(priority int) {
+	std.SetPriority(priority)
 }
 
 // Layouts returns the output layouts for the standard logger.

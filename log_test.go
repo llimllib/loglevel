@@ -5,14 +5,12 @@
 package log_test
 
 import (
-	"github.com/oneslang/log"
-	"github.com/oneslang/log/layout"
-	"github.com/oneslang/log/level"
+	"../log"
 	"testing"
 )
 
 func TestFatal(t *testing.T) {
-	log.SetLevels(level.Trace)
-	log.SetLayouts(layout.Default | layout.Level | layout.Longfile)
+	log.SetPriority(log.Ptrace)
+	log.SetLayouts(log.Ldefault | log.Lpriority | log.Llongfile)
 	log.Debug("aaa")
 }

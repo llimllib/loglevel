@@ -5,37 +5,35 @@
 package log
 
 import (
-	"github.com/oneslang/log/layout"
-	"github.com/oneslang/log/level"
 	"io"
 	"log"
 )
 
 type Logger struct {
-	level  int
-	logger *log.Logger
+	priority int
+	logger   *log.Logger
 }
 
 // New creates a new Logger.
 func New(out io.Writer) *Logger {
-	return &Logger{level: level.Debug, logger: log.New(out, "", log.LstdFlags)}
+	return &Logger{priority: Pdebug, logger: log.New(out, "", log.LstdFlags)}
 }
 
 // Sets the output prefix for the logger.
 func (l *Logger) setPrefix(funcs int) {
-	if l.logger.Flags()&layout.Level != 0 {
+	if l.logger.Flags()&Lpriority != 0 {
 		switch funcs {
-		case level.Fatal:
+		case Pfatal:
 			l.logger.SetPrefix("Fatal ")
-		case level.Error:
+		case Perror:
 			l.logger.SetPrefix("Error ")
-		case level.Warn:
+		case Pwarn:
 			l.logger.SetPrefix("Warn ")
-		case level.Info:
+		case Pinfo:
 			l.logger.SetPrefix("Info ")
-		case level.Debug:
+		case Pdebug:
 			l.logger.SetPrefix("Debug ")
-		case level.Trace:
+		case Ptrace:
 			l.logger.SetPrefix("Trace ")
 		default:
 			l.logger.SetPrefix("")
@@ -47,7 +45,7 @@ func (l *Logger) setPrefix(funcs int) {
 
 // Calls Output to print to the logger.
 func (l *Logger) print(funcs int, v ...interface{}) {
-	if funcs <= l.level {
+	if funcs <= l.priority {
 		l.setPrefix(funcs)
 		l.logger.Print(v)
 	}
@@ -55,7 +53,7 @@ func (l *Logger) print(funcs int, v ...interface{}) {
 
 // Calls Output to printf to the logger.
 func (l *Logger) printf(funcs int, format string, v ...interface{}) {
-	if funcs <= l.level {
+	if funcs <= l.priority {
 		l.setPrefix(funcs)
 		l.logger.Printf(format, v)
 	}
@@ -63,20 +61,20 @@ func (l *Logger) printf(funcs int, format string, v ...interface{}) {
 
 // Calls Output to println to the logger.
 func (l *Logger) println(funcs int, v ...interface{}) {
-	if funcs <= l.level {
+	if funcs <= l.priority {
 		l.setPrefix(funcs)
 		l.logger.Println(v)
 	}
 }
 
-// Levels returns the output Levels for the logger.
-func (l *Logger) Levels() int {
-	return l.level
+// Priority returns the output priority for the logger.
+func (l *Logger) Priority() int {
+	return l.priority
 }
 
-// SetLevels sets the output Levels for the logger.
-func (l *Logger) SetLevels(levels int) {
-	l.level = levels
+// SetPriority sets the output priority for the logger.
+func (l *Logger) SetPriority(priority int) {
+	l.priority = priority
 }
 
 // Layouts returns the output layouts for the logger.
@@ -91,90 +89,90 @@ func (l *Logger) SetLayouts(layouts int) {
 
 // Calls Output to print to the logger with the Fatal level.
 func (l *Logger) Fatal(v ...interface{}) {
-	l.print(level.Fatal, v)
+	l.print(Pfatal, v)
 }
 
 // Calls Output to printf to the logger with the Fatal level.
 func (l *Logger) Fatalf(format string, v ...interface{}) {
-	l.printf(level.Fatal, format, v)
+	l.printf(Pfatal, format, v)
 }
 
 // Calls Output to println to the logger with the Fatal level.
 func (l *Logger) Fatalln(v ...interface{}) {
-	l.println(level.Fatal, v)
+	l.println(Pfatal, v)
 }
 
 // Calls Output to print to the logger with the Error level.
 func (l *Logger) Error(v ...interface{}) {
-	l.print(level.Error, v)
+	l.print(Perror, v)
 }
 
 // Calls Output to printf to the logger with the Error level.
 func (l *Logger) Errorf(format string, v ...interface{}) {
-	l.printf(level.Error, format, v)
+	l.printf(Perror, format, v)
 }
 
 // Calls Output to println to the logger with the Error level.
 func (l *Logger) Errorln(v ...interface{}) {
-	l.println(level.Error, v)
+	l.println(Perror, v)
 }
 
 // Calls Output to print to the logger with the Warn level.
 func (l *Logger) Warn(v ...interface{}) {
-	l.print(level.Warn, v)
+	l.print(Pwarn, v)
 }
 
 // Calls Output to printf to the logger with the Warn level.
 func (l *Logger) Warnf(format string, v ...interface{}) {
-	l.printf(level.Warn, format, v)
+	l.printf(Pwarn, format, v)
 }
 
 // Calls Output to println to the logger with the Warn level.
 func (l *Logger) Warnln(v ...interface{}) {
-	l.println(level.Warn, v)
+	l.println(Pwarn, v)
 }
 
 // Calls Output to print to the logger with the Info level.
 func (l *Logger) Info(v ...interface{}) {
-	l.print(level.Info, v)
+	l.print(Pinfo, v)
 }
 
 // Calls Output to printf to the logger with the Info level.
 func (l *Logger) Infof(format string, v ...interface{}) {
-	l.printf(level.Info, format, v)
+	l.printf(Pinfo, format, v)
 }
 
 // Calls Output to println to the logger with the Info level.
 func (l *Logger) Infoln(v ...interface{}) {
-	l.println(level.Info, v)
+	l.println(Pinfo, v)
 }
 
 // Calls Output to print to the logger with the Debug level.
 func (l *Logger) Debug(v ...interface{}) {
-	l.print(level.Debug, v)
+	l.print(Pdebug, v)
 }
 
 // Calls Output to printf to the logger with the Debug level.
 func (l *Logger) Debugf(format string, v ...interface{}) {
-	l.printf(level.Debug, format, v)
+	l.printf(Pdebug, format, v)
 }
 
 // Calls Output to println to the logger with the Debug level.
 func (l *Logger) Debugln(v ...interface{}) {
-	l.println(level.Debug, v)
+	l.println(Pdebug, v)
 }
 
 // Calls Output to print to the logger with the Trace level.
 func (l *Logger) Trace(v ...interface{}) {
-	l.print(level.Trace, v)
+	l.print(Ptrace, v)
 }
 
 // Calls Output to printf to the logger with the Trace level.
 func (l *Logger) Tracef(format string, v ...interface{}) {
-	l.printf(level.Trace, format, v)
+	l.printf(Ptrace, format, v)
 }
 
 // Calls Output to println to the logger with the Trace level.
 func (l *Logger) Traceln(v ...interface{}) {
-	l.println(level.Trace, v)
+	l.println(Ptrace, v)
 }
