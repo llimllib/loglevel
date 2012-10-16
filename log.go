@@ -33,90 +33,90 @@ func SetLayouts(layouts int) {
 
 // Calls Output to print to the standard logger with the Fatal level.
 func Fatal(v ...interface{}) {
-	std.Fatal(v)
+	std.Fatal(v...)
 }
 
 // Calls Output to printf to the standard logger with the Fatal level.
 func Fatalf(format string, v ...interface{}) {
-	std.Fatalf(format, v)
+	std.Fatalf(format, v...)
 }
 
 // Calls Output to println to the standard logger with the Fatal level.
 func Fatalln(v ...interface{}) {
-	std.Fatalln(v)
+	std.Fatalln(v...)
 }
 
 // Calls Output to print to the standard logger with the Error level.
 func Error(v ...interface{}) {
-	std.Error(v)
+	std.Error(v...)
 }
 
 // Calls Output to printf to the standard logger with the Error level.
 func Errorf(format string, v ...interface{}) {
-	std.Errorf(format, v)
+	std.Errorf(format, v...)
 }
 
 // Calls Output to println to the standard logger with the Error level.
 func Errorln(v ...interface{}) {
-	std.Errorln(v)
+	std.Errorln(v...)
 }
 
 // Calls Output to print to the standard logger with the Warn level.
 func Warn(v ...interface{}) {
-	std.Warn(v)
+	std.Warn(v...)
 }
 
 // Calls Output to printf to the standard logger with the Warn level.
 func Warnf(format string, v ...interface{}) {
-	std.Warnf(format, v)
+	std.Warnf(format, v...)
 }
 
 // Calls Output to println to the standard logger with the Warn level.
 func Warnln(v ...interface{}) {
-	std.Warnln(v)
+	std.Warnln(v...)
 }
 
 // Calls Output to print to the standard logger with the Info level.
 func Info(v ...interface{}) {
-	std.Info(v)
+	std.Info(v...)
 }
 
 // Calls Output to printf to the standard logger with the Info level.
 func Infof(format string, v ...interface{}) {
-	std.Infof(format, v)
+	std.Infof(format, v...)
 }
 
 // Calls Output to println to the standard logger with the Info level.
 func Infoln(v ...interface{}) {
-	std.Infoln(v)
+	std.Infoln(v...)
 }
 
 // Calls Output to print to the standard logger with the Debug level.
 func Debug(v ...interface{}) {
-	std.Debug(v)
+	std.Debug(v...)
 }
 
 // Calls Output to printf to the standard logger with the Debug level.
 func Debugf(format string, v ...interface{}) {
-	std.Debugf(format, v)
+	std.Debugf(format, v...)
 }
 
 // Calls Output to println to the standard logger with the Debug level.
 func Debugln(v ...interface{}) {
-	std.Debugln(v)
+	std.Debugln(v...)
 }
 
 // Calls Output to print to the standard logger with the Trace level.
 func Trace(v ...interface{}) {
-	std.Trace(v)
+	std.Trace(v...)
 }
 
 // Calls Output to printf to the standard logger with the Trace level.
 func Tracef(format string, v ...interface{}) {
-	std.Tracef(format, v)
+	std.Tracef(format, v...)
 }
 
 // Calls Output to println to the standard logger with the Trace level.
 func Traceln(v ...interface{}) {
-	std.Traceln(v)
+	std.Traceln(v...)
 }
