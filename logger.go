@@ -20,159 +20,159 @@ func New(out io.Writer) *Logger {
 }
 
 // Sets the output prefix for the logger.
-func (l *Logger) setPrefix(funcs int) {
-	if l.logger.Flags()&Lpriority != 0 {
+func (me *Logger) setPrefix(funcs int) {
+	if me.logger.Flags()&Lpriority != 0 {
 		switch funcs {
 		case Pfatal:
-			l.logger.SetPrefix("Fatal ")
+			me.logger.SetPrefix("Fatal ")
 		case Perror:
-			l.logger.SetPrefix("Error ")
+			me.logger.SetPrefix("Error ")
 		case Pwarn:
-			l.logger.SetPrefix("Warn ")
+			me.logger.SetPrefix("Warn ")
 		case Pinfo:
-			l.logger.SetPrefix("Info ")
+			me.logger.SetPrefix("Info ")
 		case Pdebug:
-			l.logger.SetPrefix("Debug ")
+			me.logger.SetPrefix("Debug ")
 		case Ptrace:
-			l.logger.SetPrefix("Trace ")
+			me.logger.SetPrefix("Trace ")
 		default:
-			l.logger.SetPrefix("")
+			me.logger.SetPrefix("")
 		}
 	} else {
-		l.logger.SetPrefix("")
+		me.logger.SetPrefix("")
 	}
 }
 
 // Calls Output to print to the logger.
-func (l *Logger) print(funcs int, v ...interface{}) {
-	if funcs <= l.priority {
-		l.setPrefix(funcs)
-		l.logger.Print(v...)
+func (me *Logger) print(funcs int, v ...interface{}) {
+	if funcs <= me.priority {
+		me.setPrefix(funcs)
+		me.logger.Print(v...)
 	}
 }
 
 // Calls Output to printf to the logger.
-func (l *Logger) printf(funcs int, format string, v ...interface{}) {
-	if funcs <= l.priority {
-		l.setPrefix(funcs)
-		l.logger.Printf(format, v...)
+func (me *Logger) printf(funcs int, format string, v ...interface{}) {
+	if funcs <= me.priority {
+		me.setPrefix(funcs)
+		me.logger.Printf(format, v...)
 	}
 }
 
 // Calls Output to println to the logger.
-func (l *Logger) println(funcs int, v ...interface{}) {
-	if funcs <= l.priority {
-		l.setPrefix(funcs)
-		l.logger.Println(v...)
+func (me *Logger) println(funcs int, v ...interface{}) {
+	if funcs <= me.priority {
+		me.setPrefix(funcs)
+		me.logger.Println(v...)
 	}
 }
 
 // Priority returns the output priority for the logger.
-func (l *Logger) Priority() int {
-	return l.priority
+func (me *Logger) Priority() int {
+	return me.priority
 }
 
 // SetPriority sets the output priority for the logger.
-func (l *Logger) SetPriority(priority int) {
-	l.priority = priority
+func (me *Logger) SetPriority(priority int) {
+	me.priority = priority
 }
 
 // Layouts returns the output layouts for the logger.
-func (l *Logger) Layouts() int {
-	return l.logger.Flags()
+func (me *Logger) Layouts() int {
+	return me.logger.Flags()
 }
 
 // SetLayouts sets the output layouts for the logger.
-func (l *Logger) SetLayouts(layouts int) {
-	l.logger.SetFlags(layouts)
+func (me *Logger) SetLayouts(layouts int) {
+	me.logger.SetFlags(layouts)
 }
 
 // Calls Output to print to the logger with the Fatal level.
-func (l *Logger) Fatal(v ...interface{}) {
-	l.print(Pfatal, v...)
+func (me *Logger) Fatal(v ...interface{}) {
+	me.print(Pfatal, v...)
 }
 
 // Calls Output to printf to the logger with the Fatal level.
-func (l *Logger) Fatalf(format string, v ...interface{}) {
-	l.printf(Pfatal, format, v...)
+func (me *Logger) Fatalf(format string, v ...interface{}) {
+	me.printf(Pfatal, format, v...)
 }
 
 // Calls Output to println to the logger with the Fatal level.
-func (l *Logger) Fatalln(v ...interface{}) {
-	l.println(Pfatal, v...)
+func (me *Logger) Fatalln(v ...interface{}) {
+	me.println(Pfatal, v...)
 }
 
 // Calls Output to print to the logger with the Error level.
-func (l *Logger) Error(v ...interface{}) {
-	l.print(Perror, v...)
+func (me *Logger) Error(v ...interface{}) {
+	me.print(Perror, v...)
 }
 
 // Calls Output to printf to the logger with the Error level.
-func (l *Logger) Errorf(format string, v ...interface{}) {
-	l.printf(Perror, format, v...)
+func (me *Logger) Errorf(format string, v ...interface{}) {
+	me.printf(Perror, format, v...)
 }
 
 // Calls Output to println to the logger with the Error level.
-func (l *Logger) Errorln(v ...interface{}) {
-	l.println(Perror, v...)
+func (me *Logger) Errorln(v ...interface{}) {
+	me.println(Perror, v...)
 }
 
 // Calls Output to print to the logger with the Warn level.
-func (l *Logger) Warn(v ...interface{}) {
-	l.print(Pwarn, v...)
+func (me *Logger) Warn(v ...interface{}) {
+	me.print(Pwarn, v...)
 }
 
 // Calls Output to printf to the logger with the Warn level.
-func (l *Logger) Warnf(format string, v ...interface{}) {
-	l.printf(Pwarn, format, v...)
+func (me *Logger) Warnf(format string, v ...interface{}) {
+	me.printf(Pwarn, format, v...)
 }
 
 // Calls Output to println to the logger with the Warn level.
-func (l *Logger) Warnln(v ...interface{}) {
-	l.println(Pwarn, v...)
+func (me *Logger) Warnln(v ...interface{}) {
+	me.println(Pwarn, v...)
 }
 
 // Calls Output to print to the logger with the Info level.
-func (l *Logger) Info(v ...interface{}) {
-	l.print(Pinfo, v...)
+func (me *Logger) Info(v ...interface{}) {
+	me.print(Pinfo, v...)
 }
 
 // Calls Output to printf to the logger with the Info level.
-func (l *Logger) Infof(format string, v ...interface{}) {
-	l.printf(Pinfo, format, v...)
+func (me *Logger) Infof(format string, v ...interface{}) {
+	me.printf(Pinfo, format, v...)
 }
 
 // Calls Output to println to the logger with the Info level.
-func (l *Logger) Infoln(v ...interface{}) {
-	l.println(Pinfo, v...)
+func (me *Logger) Infoln(v ...interface{}) {
+	me.println(Pinfo, v...)
 }
 
 // Calls Output to print to the logger with the Debug level.
-func (l *Logger) Debug(v ...interface{}) {
-	l.print(Pdebug, v...)
+func (me *Logger) Debug(v ...interface{}) {
+	me.print(Pdebug, v...)
 }
 
 // Calls Output to printf to the logger with the Debug level.
-func (l *Logger) Debugf(format string, v ...interface{}) {
-	l.printf(Pdebug, format, v...)
+func (me *Logger) Debugf(format string, v ...interface{}) {
+	me.printf(Pdebug, format, v...)
 }
 
 // Calls Output to println to the logger with the Debug level.
-func (l *Logger) Debugln(v ...interface{}) {
-	l.println(Pdebug, v...)
+func (me *Logger) Debugln(v ...interface{}) {
+	me.println(Pdebug, v...)
 }
 
 // Calls Output to print to the logger with the Trace level.
-func (l *Logger) Trace(v ...interface{}) {
-	l.print(Ptrace, v...)
+func (me *Logger) Trace(v ...interface{}) {
+	me.print(Ptrace, v...)
 }
 
 // Calls Output to printf to the logger with the Trace level.
-func (l *Logger) Tracef(format string, v ...interface{}) {
-	l.printf(Ptrace, format, v...)
+func (me *Logger) Tracef(format string, v ...interface{}) {
+	me.printf(Ptrace, format, v...)
 }
 
 // Calls Output to println to the logger with the Trace level.
-func (l *Logger) Traceln(v ...interface{}) {
-	l.println(Ptrace, v...)
+func (me *Logger) Traceln(v ...interface{}) {
+	me.println(Ptrace, v...)
 }
