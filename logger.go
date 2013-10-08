@@ -5,6 +5,7 @@
 package log
 
 import (
+	"fmt"
 	"io"
 	"log"
 )
@@ -22,22 +23,7 @@ func New(out io.Writer) *Logger {
 // Sets the output prefix for the logger.
 func (me *Logger) setPrefix(funcs int) {
 	if me.logger.Flags()&Lpriority != 0 {
-		switch funcs {
-		case Pfatal:
-			me.logger.SetPrefix("Fatal ")
-		case Perror:
-			me.logger.SetPrefix("Error ")
-		case Pwarn:
-			me.logger.SetPrefix("Warn ")
-		case Pinfo:
-			me.logger.SetPrefix("Info ")
-		case Pdebug:
-			me.logger.SetPrefix("Debug ")
-		case Ptrace:
-			me.logger.SetPrefix("Trace ")
-		default:
-			me.logger.SetPrefix("")
-		}
+		me.logger.SetPrefix(fmt.Sprintf("%s ", priorityName[funcs]))
 	} else {
 		me.logger.SetPrefix("")
 	}
@@ -89,16 +75,19 @@ func (me *Logger) SetLayouts(layouts int) {
 
 // Calls Output to print to the logger with the Fatal level.
 func (me *Logger) Fatal(v ...interface{}) {
+	me.setPrefix(Pfatal)
 	me.logger.Fatal(v...)
 }
 
 // Calls Output to printf to the logger with the Fatal level.
 func (me *Logger) Fatalf(format string, v ...interface{}) {
+	me.setPrefix(Pfatal)
 	me.logger.Fatalf(format, v...)
 }
 
 // Calls Output to println to the logger with the Fatal level.
 func (me *Logger) Fatalln(v ...interface{}) {
+	me.setPrefix(Pfatal)
 	me.logger.Fatalln(v...)
 }
 
