@@ -2,14 +2,23 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
+// Additions 2013 Bill Mill bill.mill@gmail.com
+
 // Package log implements a simple logging package.
 package log
 
 import (
 	"os"
+	"io"
 )
 
 var std *Logger = New(os.Stderr)
+
+func SetOutput(out io.Writer) {
+	newstd := New(out)
+	newstd.priority = std.priority
+	std = newstd
+}
 
 // Priority returns the output priority for the standard logger.
 func Priority() int {
