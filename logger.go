@@ -24,6 +24,7 @@ func New(out io.Writer) *Logger {
 // Sets the output prefix for the logger.
 func (me *Logger) SetPrefix(prefix string) {
 	me.prefix = prefix
+	me.logger.SetPrefix(prefix)
 }
 
 func (me *Logger) setFullPrefix(priority int) {

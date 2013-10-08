@@ -6,6 +6,7 @@ package log
 
 import (
 	"bytes"
+	"fmt"
 	"os"
 	"regexp"
 	"testing"
