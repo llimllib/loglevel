@@ -75,22 +75,7 @@ func TestAll(t *testing.T) {
 	}
 }
 
-
-func TestLogs(t *testing.T) {
-	buf := new(bytes.Buffer)
-	SetOutput(buf)
-	SetPriority(Pinfo)
-	//SetFlags(Lstd | Lpriority | Llongfile)
-	SetFlags(0)
-	Error("ERROR")
-	Warn("WARN")
-	Infof("INFO %d world", 23)
-	Debug("DEBUG")
-	Trace("TRACE")
-	fmt.Println(buf)
-}
-
-// XXX can't run this test because the program dies
+// XXX can't run this test because the program dies. How to test fatal?
 //func TestFatal(t *testing.T) {
 //	SetPriority(log.Pinfo)
 //	SetLayouts(log.Lstd | log.Lpriority | log.Llongfile)
