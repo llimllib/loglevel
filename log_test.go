@@ -9,13 +9,19 @@ import (
 	"testing"
 )
 
-func TestFatal(t *testing.T) {
+func TestLogs(t *testing.T) {
 	log.SetPriority(log.Pinfo)
 	log.SetLayouts(log.Lstd | log.Lpriority | log.Llongfile)
-	log.Fatal("=====fatal=====")
 	log.Error("=====error=====")
 	log.Warn("=====warn=====")
 	log.Info("=====info=====")
 	log.Debug("=====debug=====")
 	log.Trace("=====trace=====")
 }
+
+// XXX can't run this test because the program dies
+//func TestFatal(t *testing.T) {
+//	log.SetPriority(log.Pinfo)
+//	log.SetLayouts(log.Lstd | log.Lpriority | log.Llongfile)
+//	log.Fatal("-----death------")
+//}
