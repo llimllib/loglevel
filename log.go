@@ -8,8 +8,10 @@
 package log
 
 import (
-	"os"
+	"fmt"
 	"io"
+	"os"
+	"strings"
 )
 
 var std *Logger = New(os.Stderr)
@@ -20,6 +22,7 @@ func SetOutput(out io.Writer) {
 	std = newstd
 }
 
+
 // Priority returns the output priority for the standard logger.
 func Priority() int {
 	return std.Priority()
@@ -28,6 +31,18 @@ func Priority() int {
 // SetPriority sets the output priority for the standard logger.
 func SetPriority(priority int) {
 	std.SetPriority(priority)
+}
+
+// SetPriorityString sets the output priority by the name of a debug level
+func SetPriorityString(s string) error {
+	s = strings.ToUpper(s)
+	for i, name := range priorityName {
+		if name == s {
+			SetPriority(i)
+			return nil
+		}
+	}
+	return fmt.Errorf("Unable to find priority %s", s)
 }
 
 // Layouts returns the output layouts for the standard logger.

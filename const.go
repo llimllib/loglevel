@@ -16,6 +16,17 @@ const (
 	Pall
 )
 
+var priorityName = []string{
+	Poff:       "OFF",
+	Pfatal:     "FATAL",
+	Perror:     "ERROR",
+	Pwarn:      "WARN",
+	Pinfo:      "INFO",
+	Pdebug:     "DEBUG",
+	Ptrace:     "TRACE",
+	Pall:       "ALL",
+}
+
 // Layouts used for identifying the format of an event.
 const (
 	// Debug 2012/01/23 01:23:23.123123 /a/b/c/d.go:23: message
