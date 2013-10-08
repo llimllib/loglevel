@@ -22,7 +22,6 @@ func SetOutput(out io.Writer) {
 	std = newstd
 }
 
-
 // Priority returns the output priority for the standard logger.
 func Priority() int {
 	return std.Priority()
