@@ -18,6 +18,7 @@ const (
 	Rline         = `(48|56):` // must update if the calls to l.Printf / l.Print below move
 	Rlongfile     = `.*/[A-Za-z0-9_\-]+\.go:` + Rline
 	Rshortfile    = `[A-Za-z0-9_\-]+\.go:` + Rline
+	Rinfo         = `INFO `
 )
 
 type tester struct {
@@ -37,6 +38,8 @@ var tests = []tester{
 	{Llongfile, "", Rlongfile + " "},
 	{Lshortfile, "", Rshortfile + " "},
 	{Llongfile | Lshortfile, "", Rshortfile + " "}, // shortfile overrides longfile
+	{Lpriority, "", Rinfo},
+	{Lpriority | Ltime, "", Rinfo + Rtime + " "},
 	// everything at once:
 	{Ldate | Ltime | Lmicroseconds | Llongfile, "XXX", "XXX" + Rdate + " " + Rtime + Rmicroseconds + " " + Rlongfile + " "},
 	{Ldate | Ltime | Lmicroseconds | Lshortfile, "XXX", "XXX" + Rdate + " " + Rtime + Rmicroseconds + " " + Rshortfile + " "},
