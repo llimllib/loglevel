@@ -45,14 +45,19 @@ func SetPriorityString(s string) error {
 	return fmt.Errorf("Unable to find priority %s", s)
 }
 
-// Layouts returns the output layouts for the standard logger.
-func Layouts() int {
-	return std.Layouts()
+// Flags returns the output layouts for the standard logger.
+func Flags() int {
+	return std.Flags()
 }
 
-// SetLayouts sets the output layouts for the standard logger.
-func SetLayouts(layouts int) {
-	std.SetLayouts(layouts)
+// SetFlags sets the output layouts for the standard logger.
+func SetFlags(flags int) {
+	std.SetFlags(flags)
+}
+
+// SetPrefix sets the logger prefix
+func SetPrefix(prefix string) {
+	std.SetPrefix(prefix)
 }
 
 // Calls Output to print to the standard logger with the Fatal level.

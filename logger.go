@@ -12,6 +12,7 @@ import (
 
 type Logger struct {
 	priority int
+	prefix   string
 	logger   *log.Logger
 }
 
@@ -21,34 +22,36 @@ func New(out io.Writer) *Logger {
 }
 
 // Sets the output prefix for the logger.
-func (me *Logger) setPrefix(funcs int) {
+func (me *Logger) SetPrefix(prefix string) {
+	me.prefix = prefix
+}
+
+func (me *Logger) setFullPrefix(priority int) {
 	if me.logger.Flags()&Lpriority != 0 {
-		me.logger.SetPrefix(fmt.Sprintf("%s ", priorityName[funcs]))
-	} else {
-		me.logger.SetPrefix("")
+		me.logger.SetPrefix(fmt.Sprintf("%s ", priorityName[priority]) + me.prefix)
 	}
 }
 
 // Calls Output to print to the logger.
-func (me *Logger) print(funcs int, v ...interface{}) {
-	if funcs <= me.priority {
-		me.setPrefix(funcs)
+func (me *Logger) print(priority int, v ...interface{}) {
+	if priority <= me.priority {
+		me.setFullPrefix(priority)
 		me.logger.Print(v...)
 	}
 }
 
 // Calls Output to printf to the logger.
-func (me *Logger) printf(funcs int, format string, v ...interface{}) {
-	if funcs <= me.priority {
-		me.setPrefix(funcs)
+func (me *Logger) printf(priority int, format string, v ...interface{}) {
+	if priority <= me.priority {
+		me.setFullPrefix(priority)
 		me.logger.Printf(format, v...)
 	}
 }
 
 // Calls Output to println to the logger.
-func (me *Logger) println(funcs int, v ...interface{}) {
-	if funcs <= me.priority {
-		me.setPrefix(funcs)
+func (me *Logger) println(priority int, v ...interface{}) {
+	if priority <= me.priority {
+		me.setFullPrefix(priority)
 		me.logger.Println(v...)
 	}
 }
@@ -63,31 +66,31 @@ func (me *Logger) SetPriority(priority int) {
 	me.priority = priority
 }
 
-// Layouts returns the output layouts for the logger.
-func (me *Logger) Layouts() int {
+// Flags returns the output layouts for the logger.
+func (me *Logger) Flags() int {
 	return me.logger.Flags()
 }
 
-// SetLayouts sets the output layouts for the logger.
-func (me *Logger) SetLayouts(layouts int) {
+// SetFlags sets the output layouts for the logger.
+func (me *Logger) SetFlags(layouts int) {
 	me.logger.SetFlags(layouts)
 }
 
 // Calls Output to print to the logger with the Fatal level.
 func (me *Logger) Fatal(v ...interface{}) {
-	me.setPrefix(Pfatal)
+	me.setFullPrefix(Pfatal)
 	me.logger.Fatal(v...)
 }
 
 // Calls Output to printf to the logger with the Fatal level.
 func (me *Logger) Fatalf(format string, v ...interface{}) {
-	me.setPrefix(Pfatal)
+	me.setFullPrefix(Pfatal)
 	me.logger.Fatalf(format, v...)
 }
 
 // Calls Output to println to the logger with the Fatal level.
 func (me *Logger) Fatalln(v ...interface{}) {
-	me.setPrefix(Pfatal)
+	me.setFullPrefix(Pfatal)
 	me.logger.Fatalln(v...)
 }
 
