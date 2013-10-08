@@ -48,10 +48,11 @@ func testPrint(t *testing.T, flag int, prefix string, pattern string, useFormat 
 	SetOutput(buf)
 	SetFlags(flag)
 	SetPrefix(prefix)
+	SetPriority(Pall)
 	if useFormat {
 		Infof("hello %d world", 23)
 	} else {
-		Info("hello", 23, "world")
+		Infoln("hello", 23, "world")
 	}
 	line := buf.String()
 	line = line[0 : len(line)-1]
@@ -75,13 +76,17 @@ func TestAll(t *testing.T) {
 
 
 func TestLogs(t *testing.T) {
+	buf := new(bytes.Buffer)
+	SetOutput(buf)
 	SetPriority(Pinfo)
-	SetFlags(Lstd | Lpriority | Llongfile)
-	Error("=====error=====")
-	Warn("=====warn=====")
-	Infof("=====info===== %d world", 23)
-	Debug("=====debug=====")
-	Trace("=====trace=====")
+	//SetFlags(Lstd | Lpriority | Llongfile)
+	SetFlags(0)
+	Error("ERROR")
+	Warn("WARN")
+	Infof("INFO %d world", 23)
+	Debug("DEBUG")
+	Trace("TRACE")
+	fmt.Println(buf)
 }
 
 // XXX can't run this test because the program dies
