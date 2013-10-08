@@ -89,17 +89,17 @@ func (me *Logger) SetLayouts(layouts int) {
 
 // Calls Output to print to the logger with the Fatal level.
 func (me *Logger) Fatal(v ...interface{}) {
-	me.print(Pfatal, v...)
+	me.logger.Fatal(v...)
 }
 
 // Calls Output to printf to the logger with the Fatal level.
 func (me *Logger) Fatalf(format string, v ...interface{}) {
-	me.printf(Pfatal, format, v...)
+	me.logger.Fatalf(format, v...)
 }
 
 // Calls Output to println to the logger with the Fatal level.
 func (me *Logger) Fatalln(v ...interface{}) {
-	me.println(Pfatal, v...)
+	me.logger.Fatalln(v...)
 }
 
 // Calls Output to print to the logger with the Error level.
