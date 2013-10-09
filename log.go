@@ -1,5 +1,5 @@
-// Package log is a simple levelled logging wrapper around the go "log" module
-package log
+// Loglevel is a simple levelled logging wrapper around the go "log" module
+package loglevel
 
 import (
 	"fmt"

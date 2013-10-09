@@ -1,4 +1,4 @@
-package log
+package loglevel
 
 // Priority used for identifying the severity of an event.
 const (
