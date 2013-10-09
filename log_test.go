@@ -60,9 +60,9 @@ func testPrint(t *testing.T, flag int, prefix string, pattern string, useFormat 
 	line := buf.String()
 	line = line[0 : len(line)-1]
 	pattern = "^" + pattern + "hello 23 world$"
-	matched, err4 := regexp.MatchString(pattern, line)
-	if err4 != nil {
-		t.Fatal("pattern did not compile:", err4)
+	matched, err := regexp.MatchString(pattern, line)
+	if err != nil {
+		t.Fatal("pattern did not compile:", err)
 	}
 	if !matched {
 		t.Errorf("log output should match %q but is %q", pattern, line)
@@ -76,6 +76,19 @@ func TestAll(t *testing.T) {
 		testPrint(t, testcase.flag, testcase.prefix, testcase.pattern, true)
 	}
 }
+
+func TestPriority(t *testing.T) {
+	buf := new(bytes.Buffer)
+	SetOutput(buf)
+	SetFlags(0)
+	SetPriority(Pinfo)
+	Warn("a")
+	Debug("b")
+	if buf.String() != "a\n" {
+		t.Fatal("expected a\\n, got %#v", buf)
+	}
+}
+
 
 // XXX can't run this test because the program dies. How to test fatal?
 //func TestFatal(t *testing.T) {
