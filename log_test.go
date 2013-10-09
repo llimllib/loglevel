@@ -89,7 +89,6 @@ func TestPriority(t *testing.T) {
 	}
 }
 
-
 // XXX can't run this test because the program dies. How to test fatal?
 //func TestFatal(t *testing.T) {
 //	SetPriority(log.Pinfo)
