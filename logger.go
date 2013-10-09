@@ -31,6 +31,10 @@ func (me *Logger) SetPrefix(prefix string) {
 	me.logger.SetPrefix(prefix)
 }
 
+func (me *Logger) Prefix() string {
+	return me.prefix
+}
+
 func (me *Logger) setFullPrefix(priority int) {
 	if me.logger.Flags()&Lpriority != 0 {
 		me.logger.SetPrefix(fmt.Sprintf("%s ", priorityName[priority]) + me.prefix)
