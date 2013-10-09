@@ -1,10 +1,4 @@
-// Copyright 2012 The Oneslang Authors.  All rights reserved.
-// Use of this source code is governed by a MIT-style
-// license that can be found in the LICENSE file.
-
-// Additions 2013 Bill Mill bill.mill@gmail.com
-
-// Package log implements a simple logging package.
+// Package log is a simple levelled logging wrapper around the go "log" module
 package log
 
 import (
