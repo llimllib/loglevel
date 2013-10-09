@@ -11,7 +11,7 @@ const (
 	Rdate         = `[0-9][0-9][0-9][0-9]/[0-9][0-9]/[0-9][0-9]`
 	Rtime         = `[0-9][0-9]:[0-9][0-9]:[0-9][0-9]`
 	Rmicroseconds = `\.[0-9][0-9][0-9][0-9][0-9][0-9]`
-	Rline         = `(56|64):` // must update if the calls to l.Printf / l.Print below move
+	Rline         = `(53|61):` // must update if the calls to l.Printf / l.Print below move
 	Rlongfile     = `.*/[A-Za-z0-9_\-]+\.go:` + Rline
 	Rshortfile    = `[A-Za-z0-9_\-]+\.go:` + Rline
 	Rinfo         = `INFO `
@@ -123,6 +123,38 @@ func TestPriority(t *testing.T) {
 	l.Debug("b")
 	if buf.String() != "a\n" {
 		t.Fatalf("expected a\\n, got %s", buf.String())
+	}
+}
+
+func TestPriorityString(t *testing.T) {
+	buf := new(bytes.Buffer)
+	l := New(buf, "", 0, Pinfo)
+	if l.Priority() != Pinfo {
+		t.Fatalf("Priority should be Pinfo but is %s", priorityName[l.Priority()])
+	}
+
+	err := l.SetPriorityString("WARN")
+	if err != nil {
+		t.Fatalf("SetPriorityString returned an error: %s", err)
+	}
+	if l.Priority() != Pwarn {
+		t.Fatalf("Priority should be Pwarn but is %s", priorityName[l.Priority()])
+	}
+
+	err = l.SetPriorityString("debug")
+	if err != nil {
+		t.Fatalf("SetPriorityString returned an error: %s", err)
+	}
+	if l.Priority() != Pdebug {
+		t.Fatalf("Priority should be Pdebug but is %s", priorityName[l.Priority()])
+	}
+
+	err = l.SetPriorityString("does not exist")
+	if err == nil {
+		t.Fatal("SetPriorityString ought to have errored on invalid input")
+	}
+	if l.Priority() != Pdebug {
+		t.Fatalf("Priority should be Pdebug but is %s", priorityName[l.Priority()])
 	}
 }
 
