@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io"
 	"log"
+	"strings"
 )
 
 type Logger struct {
@@ -70,6 +71,19 @@ func (me *Logger) Priority() int {
 func (me *Logger) SetPriority(priority int) {
 	me.priority = priority
 }
+
+// SetPriorityString sets the output priority by the name of a debug level
+func (me *Logger) SetPriorityString(s string) error {
+	s = strings.ToUpper(s)
+	for i, name := range priorityName {
+		if name == s {
+			me.SetPriority(i)
+			return nil
+		}
+	}
+	return fmt.Errorf("Unable to find priority %s", s)
+}
+
 
 // Flags returns the output layouts for the logger.
 func (me *Logger) Flags() int {
