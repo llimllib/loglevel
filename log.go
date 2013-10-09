@@ -14,12 +14,10 @@ import (
 	"strings"
 )
 
-var std *Logger = New(os.Stderr)
+var std *Logger = New(os.Stderr, "", LstdFlags, Pdebug)
 
 func SetOutput(out io.Writer) {
-	newstd := New(out)
-	newstd.priority = std.priority
-	std = newstd
+	std = New(out, std.Prefix(), std.Flags(), std.priority)
 }
 
 // Priority returns the output priority for the standard logger.
