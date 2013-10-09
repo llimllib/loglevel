@@ -17,8 +17,12 @@ type Logger struct {
 }
 
 // New creates a new Logger.
-func New(out io.Writer) *Logger {
-	return &Logger{priority: Pdebug, logger: log.New(out, "", log.LstdFlags)}
+func New(out io.Writer, prefix string, flag int, priority int) *Logger {
+	return &Logger{
+		priority: priority,
+		prefix: prefix,
+		logger: log.New(out, prefix, flag),
+	}
 }
 
 // Sets the output prefix for the logger.
