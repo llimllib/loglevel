@@ -15,7 +15,7 @@ const (
 	Rdate         = `[0-9][0-9][0-9][0-9]/[0-9][0-9]/[0-9][0-9]`
 	Rtime         = `[0-9][0-9]:[0-9][0-9]:[0-9][0-9]`
 	Rmicroseconds = `\.[0-9][0-9][0-9][0-9][0-9][0-9]`
-	Rline         = `(48|56):` // must update if the calls to l.Printf / l.Print below move
+	Rline         = `(56|64):` // must update if the calls to l.Printf / l.Print below move
 	Rlongfile     = `.*/[A-Za-z0-9_\-]+\.go:` + Rline
 	Rshortfile    = `[A-Za-z0-9_\-]+\.go:` + Rline
 	Rinfo         = `INFO `
@@ -77,15 +77,56 @@ func TestAll(t *testing.T) {
 	}
 }
 
+func TestOutput(t *testing.T) {
+	const testString = "test"
+	var b bytes.Buffer
+	l := New(&b, "", 0, Pdebug)
+	l.Infoln(testString)
+	if expect := testString + "\n"; b.String() != expect {
+		t.Errorf("log output should match %q is %q", expect, b.String())
+	}
+}
+
+func TestFlagAndPrefixSetting(t *testing.T) {
+	var b bytes.Buffer
+	l := New(&b, "Test:", LstdFlags, Pdebug)
+	f := l.Flags()
+	if f != LstdFlags {
+		t.Errorf("Flags 1: expected %x got %x", LstdFlags, f)
+	}
+	l.SetFlags(f | Lmicroseconds)
+	f = l.Flags()
+	if f != LstdFlags|Lmicroseconds {
+		t.Errorf("Flags 2: expected %x got %x", LstdFlags|Lmicroseconds, f)
+	}
+	p := l.Prefix()
+	if p != "Test:" {
+		t.Errorf(`Prefix: expected "Test:" got %q`, p)
+	}
+	l.SetPrefix("Reality:")
+	p = l.Prefix()
+	if p != "Reality:" {
+		t.Errorf(`Prefix: expected "Reality:" got %q`, p)
+	}
+	// Verify a log message looks right, with our prefix and microseconds present.
+	l.Info("hello")
+	pattern := "^Reality:" + Rdate + " " + Rtime + Rmicroseconds + " hello\n"
+	matched, err := regexp.Match(pattern, b.Bytes())
+	if err != nil {
+		t.Fatalf("pattern %q did not compile: %s", pattern, err)
+	}
+	if !matched {
+		t.Error("message did not match pattern")
+	}
+}
+
 func TestPriority(t *testing.T) {
 	buf := new(bytes.Buffer)
-	SetOutput(buf)
-	SetFlags(0)
-	SetPriority(Pinfo)
-	Warn("a")
-	Debug("b")
+	l := New(buf, "", 0, Pinfo)
+	l.Warn("a")
+	l.Debug("b")
 	if buf.String() != "a\n" {
-		t.Fatal("expected a\\n, got %#v", buf)
+		t.Fatalf("expected a\\n, got %s", buf.String())
 	}
 }
 
