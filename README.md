@@ -3,6 +3,10 @@ loglevel
 
 Simple levelled logging wrapper around the go "log" module
 
+The goal of this project is to be the simplest well-tested levelled logging
+wrapper around go's log module. It retains as much of the same API as
+possible.
+
 Installation
 ============
 
