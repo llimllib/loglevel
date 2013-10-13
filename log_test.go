@@ -116,16 +116,6 @@ func TestFlagAndPrefixSetting(t *testing.T) {
 	}
 }
 
-func TestPriority(t *testing.T) {
-	buf := new(bytes.Buffer)
-	l := New(buf, "", 0, Pinfo)
-	l.Warn("a")
-	l.Debug("b")
-	if buf.String() != "a\n" {
-		t.Fatalf("expected a\\n, got %s", buf.String())
-	}
-}
-
 func TestPriorityString(t *testing.T) {
 	buf := new(bytes.Buffer)
 	l := New(buf, "", 0, Pinfo)
@@ -158,9 +148,68 @@ func TestPriorityString(t *testing.T) {
 	}
 }
 
-// XXX can't run this test because the program dies. How to test fatal?
+func testPriorityLevel(t *testing.T, testlevel int, f func(v ...interface{})) {
+	for level, _ := range priorityName {
+		buf := new(bytes.Buffer)
+		SetOutput(buf)
+		SetPriority(level)
+		SetFlags(0)
+		SetPrefix("")
+		f("a")
+		if level >= testlevel {
+			if buf.String() != "a\n" {
+				t.Fatalf("Expected 'a\\n' with level %s and testlevel %s, got <%s>", level, testlevel, buf.String())
+			}
+		} else {
+			if len(buf.String()) != 0 {
+				t.Fatalf("Expected '' with level %s and testlevel %s, got <%s>", level, testlevel, buf.String())
+			}
+		}
+	}
+}
+
+ var funcs = map[int]func(v ...interface{}) {
+	Ptrace: Trace,
+	Pdebug: Debug,
+	Pinfo: Info,
+	Pwarn: Warn,
+	Perror: Error,
+}
+
+func TestPriority(t *testing.T) {
+	for k, v := range funcs {
+		testPriorityLevel(t, k, v)
+	}
+}
+
+func TestPriorityAll(t *testing.T) {
+	for _, f := range funcs {
+		buf := new(bytes.Buffer)
+		SetOutput(buf)
+		SetPriority(Pall)
+		SetFlags(0)
+		SetPrefix("")
+		f("a")
+		if buf.String() != "a\n" {
+			t.Fatalf("Expected 'a\\n' with func %s and testlevel Pall, got <%s>", f, buf.String())
+		}
+	}
+}
+
+func TestPriorityOff(t *testing.T) {
+	for _, f := range funcs {
+		buf := new(bytes.Buffer)
+		SetOutput(buf)
+		SetPriority(Poff)
+		SetFlags(0)
+		SetPrefix("")
+		f("a")
+		if buf.String() != "" {
+			t.Fatalf("Expected '' with func %s and testlevel Poff, got <%s>", f, buf.String())
+		}
+	}
+}
+
+// XXX How to test fatal and panic?
 //func TestFatal(t *testing.T) {
-//	SetPriority(log.Pinfo)
-//	SetLayouts(log.Lstd | log.Lpriority | log.Llongfile)
-//	Fatal("-----death------")
 //}
