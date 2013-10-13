@@ -149,7 +149,7 @@ func TestPriorityString(t *testing.T) {
 }
 
 func testPriorityLevel(t *testing.T, testlevel int, f func(v ...interface{})) {
-	for level, _ := range priorityName {
+	for level := range priorityName {
 		buf := new(bytes.Buffer)
 		SetOutput(buf)
 		SetPriority(level)

@@ -7,6 +7,7 @@ import (
 	"strings"
 )
 
+// Logger defines our wrapper around the system logger
 type Logger struct {
 	priority int
 	prefix   string
@@ -22,12 +23,13 @@ func New(out io.Writer, prefix string, flag int, priority int) *Logger {
 	}
 }
 
-// Sets the output prefix for the logger.
+// SetPrefix sets the output prefix for the logger.
 func (me *Logger) SetPrefix(prefix string) {
 	me.prefix = prefix
 	me.logger.SetPrefix(prefix)
 }
 
+// Prefix returns the current logger prefix
 func (me *Logger) Prefix() string {
 	return me.prefix
 }
@@ -94,113 +96,113 @@ func (me *Logger) SetFlags(layouts int) {
 	me.logger.SetFlags(layouts)
 }
 
-// Calls Output to print to the logger with the Fatal level.
+// Fatal prints the message it's given and quits the program
 func (me *Logger) Fatal(v ...interface{}) {
 	me.setFullPrefix(Pfatal)
 	me.logger.Fatal(v...)
 }
 
-// Calls Output to printf to the logger with the Fatal level.
+// Fatalf prints the message it's given and quits the program
 func (me *Logger) Fatalf(format string, v ...interface{}) {
 	me.setFullPrefix(Pfatal)
 	me.logger.Fatalf(format, v...)
 }
 
-// Calls Output to println to the logger with the Fatal level.
+// Fatalln prints the message it's given and quits the program
 func (me *Logger) Fatalln(v ...interface{}) {
 	me.setFullPrefix(Pfatal)
 	me.logger.Fatalln(v...)
 }
 
-// Calls Output to print to the logger with the Panic level.
+// Panic prints the message it's given and panic()s the program
 func (me *Logger) Panic(v ...interface{}) {
 	me.setFullPrefix(Pfatal)
 	me.logger.Panic(v...)
 }
 
-// Calls Output to printf to the logger with the Panic level.
+// Panicf prints the message it's given and panic()s the program
 func (me *Logger) Panicf(format string, v ...interface{}) {
 	me.setFullPrefix(Pfatal)
 	me.logger.Panicf(format, v...)
 }
 
-// Calls Output to println to the logger with the Panic level.
+// Panicln prints the message it's given and panic()s the program
 func (me *Logger) Panicln(v ...interface{}) {
 	me.setFullPrefix(Pfatal)
 	me.logger.Panicln(v...)
 }
 
-// Calls Output to print to the logger with the Error level.
+// Error prints to the standard logger with the Error level.
 func (me *Logger) Error(v ...interface{}) {
 	me.print(Perror, v...)
 }
 
-// Calls Output to printf to the logger with the Error level.
+// Errorf prints to the standard logger with the Error level.
 func (me *Logger) Errorf(format string, v ...interface{}) {
 	me.printf(Perror, format, v...)
 }
 
-// Calls Output to println to the logger with the Error level.
+// Errorln prints to the standard logger with the Error level.
 func (me *Logger) Errorln(v ...interface{}) {
 	me.println(Perror, v...)
 }
 
-// Calls Output to print to the logger with the Warn level.
+// Warn prints to the standard logger with the Warn level.
 func (me *Logger) Warn(v ...interface{}) {
 	me.print(Pwarn, v...)
 }
 
-// Calls Output to printf to the logger with the Warn level.
+// Warnf prints to the standard logger with the Warn level.
 func (me *Logger) Warnf(format string, v ...interface{}) {
 	me.printf(Pwarn, format, v...)
 }
 
-// Calls Output to println to the logger with the Warn level.
+// Warnln prints to the standard logger with the Warn level.
 func (me *Logger) Warnln(v ...interface{}) {
 	me.println(Pwarn, v...)
 }
 
-// Calls Output to print to the logger with the Info level.
+// Info prints to the standard logger with the Info level.
 func (me *Logger) Info(v ...interface{}) {
 	me.print(Pinfo, v...)
 }
 
-// Calls Output to printf to the logger with the Info level.
+// Infof prints to the standard logger with the Info level.
 func (me *Logger) Infof(format string, v ...interface{}) {
 	me.printf(Pinfo, format, v...)
 }
 
-// Calls Output to println to the logger with the Info level.
+// Infoln prints to the standard logger with the Info level.
 func (me *Logger) Infoln(v ...interface{}) {
 	me.println(Pinfo, v...)
 }
 
-// Calls Output to print to the logger with the Debug level.
+// Debug prints to the standard logger with the Debug level.
 func (me *Logger) Debug(v ...interface{}) {
 	me.print(Pdebug, v...)
 }
 
-// Calls Output to printf to the logger with the Debug level.
+// Debugf prints to the standard logger with the Debug level.
 func (me *Logger) Debugf(format string, v ...interface{}) {
 	me.printf(Pdebug, format, v...)
 }
 
-// Calls Output to println to the logger with the Debug level.
+// Debugln prints to the standard logger with the Debug level.
 func (me *Logger) Debugln(v ...interface{}) {
 	me.println(Pdebug, v...)
 }
 
-// Calls Output to print to the logger with the Trace level.
+// Trace prints to the standard logger with the Trace level.
 func (me *Logger) Trace(v ...interface{}) {
 	me.print(Ptrace, v...)
 }
 
-// Calls Output to printf to the logger with the Trace level.
+// Tracef prints to the standard logger with the Trace level.
 func (me *Logger) Tracef(format string, v ...interface{}) {
 	me.printf(Ptrace, format, v...)
 }
 
-// Calls Output to println to the logger with the Trace level.
+// Traceln prints to the standard logger with the Trace level.
 func (me *Logger) Traceln(v ...interface{}) {
 	me.println(Ptrace, v...)
 }

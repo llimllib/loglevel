@@ -23,12 +23,12 @@ var priorityName = []string{
 	Pall:   "ALL",
 }
 
-// Flags used for identifying the format of an event.
+// Flags used for identifying the format of an event. They are
+// or'ed together to control what's printed. There is no control over the
+// order they appear (the order listed here) or the format they present (as
+// described in the comments). A colon appears after these items:
+//	2009/01/23 01:23:23.123123 /a/b/c/d.go:23: message
 const (
-	// Bits or'ed together to control what's printed. There is no control over the
-	// order they appear (the order listed here) or the format they present (as
-	// described in the comments).  A colon appears after these items:
-	//	2009/01/23 01:23:23.123123 /a/b/c/d.go:23: message
 	Ldate         = 1 << iota     // the date: 2012/01/23
 	Ltime                         // the time: 01:23:23
 	Lmicroseconds                 // microsecond resolution: 01:23:23.123123.  assumes Ltime.
