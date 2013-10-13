@@ -17,8 +17,8 @@ type Logger struct {
 func New(out io.Writer, prefix string, flag int, priority int) *Logger {
 	return &Logger{
 		priority: priority,
-		prefix: prefix,
-		logger: log.New(out, prefix, flag),
+		prefix:   prefix,
+		logger:   log.New(out, prefix, flag),
 	}
 }
 
@@ -83,7 +83,6 @@ func (me *Logger) SetPriorityString(s string) error {
 	}
 	return fmt.Errorf("Unable to find priority %s", s)
 }
-
 
 // Flags returns the output layouts for the logger.
 func (me *Logger) Flags() int {

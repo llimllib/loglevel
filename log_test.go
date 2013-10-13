@@ -168,11 +168,11 @@ func testPriorityLevel(t *testing.T, testlevel int, f func(v ...interface{})) {
 	}
 }
 
- var funcs = map[int]func(v ...interface{}) {
+var funcs = map[int]func(v ...interface{}){
 	Ptrace: Trace,
 	Pdebug: Debug,
-	Pinfo: Info,
-	Pwarn: Warn,
+	Pinfo:  Info,
+	Pwarn:  Warn,
 	Perror: Error,
 }
 
