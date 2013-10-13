@@ -1,14 +1,14 @@
 BIN=$(GOPATH)/bin
 
-$(BIN)/test-log: *.go
+$(BIN)/test-loglevel: *.go
 	go test -c
-	mv log.test $(BIN)/test-log
+	mv loglevel.test $(BIN)/test-loglevel
 
-test: $(BIN)/test-log
+test: $(BIN)/test-loglevel
 ifdef TEST
-	$(BIN)/test-log -test.run="$(TEST)"
+	$(BIN)/test-loglevel -test.run="$(TEST)"
 else
-	$(BIN)/test-log -test.v
+	$(BIN)/test-loglevel -test.v
 endif
 
 format:
