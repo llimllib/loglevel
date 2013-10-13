@@ -66,6 +66,21 @@ func Fatalln(v ...interface{}) {
 	std.Fatalln(v...)
 }
 
+// Calls Output to print to the standard logger with the Panic level.
+func Panic(v ...interface{}) {
+	std.Panic(v...)
+}
+
+// Calls Output to printf to the standard logger with the Panic level.
+func Panicf(format string, v ...interface{}) {
+	std.Panicf(format, v...)
+}
+
+// Calls Output to println to the standard logger with the Panic level.
+func Panicln(v ...interface{}) {
+	std.Panicln(v...)
+}
+
 // Calls Output to print to the standard logger with the Error level.
 func Error(v ...interface{}) {
 	std.Error(v...)

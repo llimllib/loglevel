@@ -113,6 +113,24 @@ func (me *Logger) Fatalln(v ...interface{}) {
 	me.logger.Fatalln(v...)
 }
 
+// Calls Output to print to the logger with the Panic level.
+func (me *Logger) Panic(v ...interface{}) {
+	me.setFullPrefix(Pfatal)
+	me.logger.Panic(v...)
+}
+
+// Calls Output to printf to the logger with the Panic level.
+func (me *Logger) Panicf(format string, v ...interface{}) {
+	me.setFullPrefix(Pfatal)
+	me.logger.Panicf(format, v...)
+}
+
+// Calls Output to println to the logger with the Panic level.
+func (me *Logger) Panicln(v ...interface{}) {
+	me.setFullPrefix(Pfatal)
+	me.logger.Panicln(v...)
+}
+
 // Calls Output to print to the logger with the Error level.
 func (me *Logger) Error(v ...interface{}) {
 	me.print(Perror, v...)
