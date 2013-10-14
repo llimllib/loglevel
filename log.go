@@ -1,8 +1,6 @@
-// Package loglevel implements a simple levelled logging wrapper around the go
-// "log" module
-//
-// The goal of this project is to be the simplest well-tested levelled logging
-// wrapper around go's log module. It retains as much of the same API as possible.
+// Package loglevel aims to be the simplest and best-tested levelled logging
+// wrapper around go's standard library log module. It retains as much of the
+// same API as possible.
 package loglevel
 
 import (
