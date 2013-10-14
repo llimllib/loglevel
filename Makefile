@@ -1,7 +1,7 @@
 BIN=$(GOPATH)/bin
 
 test:
-	go test
+	go test -v ./...
 
 format:
 	gofmt -w *.go
