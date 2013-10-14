@@ -1,7 +1,7 @@
 loglevel [![Build Status](https://travis-ci.org/llimllib/loglevel.png)](https://travis-ci.org/llimllib/loglevel)
 ========
 
-This project auns to be the simplest and best-tested levelled logging
+This project aims to be the simplest and best-tested levelled logging
 wrapper around go's standard library log module. It retains as much of
 the same API as possible.
 
