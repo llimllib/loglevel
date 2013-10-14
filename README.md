@@ -1,11 +1,11 @@
 loglevel
 ========
 
-Simple levelled logging wrapper around the go "log" module
+This project auns to be the simplest and best-tested levelled logging
+wrapper around go's standard library log module. It retains as much of
+the same API as possible.
 
-The goal of this project is to be the simplest well-tested levelled logging
-wrapper around go's log module. It retains as much of the same API as
-possible.
+[![Build Status](https://travis-ci.org/llimllib/loglevel.png)](https://travis-ci.org/llimllib/loglevel)
 
 Installation
 ============
