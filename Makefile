@@ -1,15 +1,7 @@
 BIN=$(GOPATH)/bin
 
-$(BIN)/test-loglevel: *.go
-	go test -c
-	mv loglevel.test $(BIN)/test-loglevel
-
-test: $(BIN)/test-loglevel
-ifdef TEST
-	$(BIN)/test-loglevel -test.run="$(TEST)"
-else
-	$(BIN)/test-loglevel -test.v
-endif
+test:
+	go test
 
 format:
 	gofmt -w *.go
