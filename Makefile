@@ -1,5 +1,6 @@
 BIN=$(GOPATH)/bin
 
+test: export GOPATH=
 test:
 	go test -v ./...
 
