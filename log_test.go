@@ -3,7 +3,9 @@ package loglevel
 import (
 	"bytes"
 	"os"
+	"os/exec"
 	"regexp"
+	"strings"
 	"testing"
 )
 
@@ -210,6 +212,43 @@ func TestPriorityOff(t *testing.T) {
 	}
 }
 
-// XXX How to test fatal and panic?
-//func TestFatal(t *testing.T) {
-//}
+func testDyingCommand(t *testing.T, programname string, expected_out string) {
+	cmd := exec.Command("go", "run", programname)
+	var buf bytes.Buffer
+	cmd.Stderr = &buf
+	_, err := cmd.Output()
+	_, ok := err.(*exec.ExitError)
+	if !ok {
+		t.Fatalf("We got something other than an ExitError: %s", err)
+	}
+
+	out := strings.Split(buf.String(), "\n")[0]
+	if out != expected_out {
+		t.Fatalf("Expecting 'die', got '%s'", out)
+	}
+}
+
+func TestFatal(t *testing.T) {
+	testDyingCommand(t, "fataltests/test_fatal.go", "die")
+}
+
+func TestFatalf(t *testing.T) {
+	testDyingCommand(t, "fataltests/test_fatalf.go", "die here")
+}
+
+func TestFatalln(t *testing.T) {
+	testDyingCommand(t, "fataltests/test_fatalln.go", "die")
+}
+
+// TODO: actually test that the backtrace is printed
+func TestPanic(t *testing.T) {
+	testDyingCommand(t, "fataltests/test_panic.go", "die")
+}
+
+func TestPanicf(t *testing.T) {
+	testDyingCommand(t, "fataltests/test_panicf.go", "die here")
+}
+
+func TestPanicln(t *testing.T) {
+	testDyingCommand(t, "fataltests/test_panicln.go", "die")
+}
