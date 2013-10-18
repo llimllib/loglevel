@@ -15,6 +15,15 @@ Documentation
 
 You can find the documentation over at [GoDoc](http://godoc.org/github.com/llimllib/loglevel)
 
+Contributors
+============
+
+* [Stefan Kjartansson](http://github.com/StefanKjartansson)
+* [Bill Mill](http://github.com/llimllib)
+* [oneslang](https://github.com/oneslang)
+
+_(alphabetical order)_
+
 History
 =======
 
