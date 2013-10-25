@@ -9,7 +9,7 @@ BIN=$(GOPATH)/bin
 # makes Travis happy and doesn't annoy me during dev.
 #
 # TODO: figure out how to kill this hack
-test: export GOPATH=
+test: GOPATH=
 test:
 	go test -v ./...
 
