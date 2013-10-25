@@ -75,9 +75,12 @@ func main() {
 	l.Warn("This is a warning")
 	fmt.Print(buf.String())
 
-	// And, finally, you can cause your program to exit with Fatal, Fatalf, or
-	// Fatalln
+	// You can cause your program to exit with Fatal, Fatalf, or Fatalln
 	log.Fatal("the program will terminate here")
 	log.Info("so this line will not get printed")
+	
+	// You can also use the panic series of functions to print a message
+	// followed by a traceback, and exit your program
+	log.Panic("If we got here, this would exit and print a traceback")
 }
 ```
