@@ -13,7 +13,7 @@ const (
 	Rdate         = `[0-9][0-9][0-9][0-9]/[0-9][0-9]/[0-9][0-9]`
 	Rtime         = `[0-9][0-9]:[0-9][0-9]:[0-9][0-9]`
 	Rmicroseconds = `\.[0-9][0-9][0-9][0-9][0-9][0-9]`
-	Rline         = `(55|63):` // must update if the calls to l.Infof / l.Info below move
+	Rline         = `(53|61):` // must update if the calls to l.Infof / l.Info below move
 	Rlongfile     = `.*/[A-Za-z0-9_\-]+\.go:` + Rline
 	Rshortfile    = `[A-Za-z0-9_\-]+\.go:` + Rline
 	Rinfo         = `INFO `
@@ -150,21 +150,22 @@ func TestPriorityString(t *testing.T) {
 	}
 }
 
-func testPriorityLevel(t *testing.T, testlevel int, f func(v ...interface{})) {
+func testPriorityLevel(t *testing.T, testlevel int32, f func(v ...interface{})) {
 	for level := range priorityName {
+		lvl := int32(level)
 		buf := new(bytes.Buffer)
 		SetOutput(buf)
-		SetPriority(level)
+		SetPriority(lvl)
 		SetFlags(0)
 		SetPrefix("")
 		f("a")
-		if level >= testlevel {
+		if lvl >= testlevel {
 			if buf.String() != "a\n" {
-				t.Fatalf("Expected 'a\\n' with level %s and testlevel %s, got <%s>", level, testlevel, buf.String())
+				t.Fatalf("Expected 'a\\n' with level %s and testlevel %s, got <%s>", lvl, testlevel, buf.String())
 			}
 		} else {
 			if len(buf.String()) != 0 {
-				t.Fatalf("Expected '' with level %s and testlevel %s, got <%s>", level, testlevel, buf.String())
+				t.Fatalf("Expected '' with level %s and testlevel %s, got <%s>", lvl, testlevel, buf.String())
 			}
 		}
 	}
@@ -180,7 +181,7 @@ var funcs = map[int]func(v ...interface{}){
 
 func TestPriority(t *testing.T) {
 	for k, v := range funcs {
-		testPriorityLevel(t, k, v)
+		testPriorityLevel(t, int32(k), v)
 	}
 }
 

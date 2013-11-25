@@ -5,73 +5,71 @@ import (
 	"io"
 	"log"
 	"strings"
+	"sync/atomic"
 )
 
 // Logger defines our wrapper around the system logger
 type Logger struct {
-	priority int
-	prefix   string
+	priority int32
 	logger   *log.Logger
 }
 
 // New creates a new Logger.
-func New(out io.Writer, prefix string, flag int, priority int) *Logger {
+func New(out io.Writer, prefix string, flag int, priority int32) *Logger {
 	return &Logger{
 		priority: priority,
-		prefix:   prefix,
 		logger:   log.New(out, prefix, flag),
 	}
 }
 
 // SetPrefix sets the output prefix for the logger.
 func (me *Logger) SetPrefix(prefix string) {
-	me.prefix = prefix
 	me.logger.SetPrefix(prefix)
 }
 
 // Prefix returns the current logger prefix
 func (me *Logger) Prefix() string {
-	return me.prefix
+	return me.logger.Prefix()
 }
 
-func (me *Logger) setFullPrefix(priority int) {
+func (me *Logger) setFullPrefix(priority int32) {
 	if me.logger.Flags()&Lpriority != 0 {
-		me.logger.SetPrefix(fmt.Sprintf("%s ", priorityName[priority]) + me.prefix)
+		me.logger.SetPrefix(fmt.Sprintf("%s ", priorityName[priority]) + me.Prefix())
 	}
 }
 
 // Calls Output to print to the logger.
-func (me *Logger) print(priority int, v ...interface{}) {
-	if priority <= me.priority {
+func (me *Logger) print(priority int32, v ...interface{}) {
+	if priority <= atomic.LoadInt32(&me.priority) {
 		me.setFullPrefix(priority)
 		me.logger.Print(v...)
 	}
 }
 
 // Calls Output to printf to the logger.
-func (me *Logger) printf(priority int, format string, v ...interface{}) {
-	if priority <= me.priority {
+func (me *Logger) printf(priority int32, format string, v ...interface{}) {
+	if priority <= atomic.LoadInt32(&me.priority) {
 		me.setFullPrefix(priority)
 		me.logger.Printf(format, v...)
 	}
 }
 
 // Calls Output to println to the logger.
-func (me *Logger) println(priority int, v ...interface{}) {
-	if priority <= me.priority {
+func (me *Logger) println(priority int32, v ...interface{}) {
+	if priority <= atomic.LoadInt32(&me.priority) {
 		me.setFullPrefix(priority)
 		me.logger.Println(v...)
 	}
 }
 
 // Priority returns the output priority for the logger.
-func (me *Logger) Priority() int {
-	return me.priority
+func (me *Logger) Priority() int32 {
+	return atomic.LoadInt32(&me.priority)
 }
 
 // SetPriority sets the output priority for the logger.
-func (me *Logger) SetPriority(priority int) {
-	me.priority = priority
+func (me *Logger) SetPriority(priority int32) {
+	atomic.StoreInt32(&me.priority, priority)
 }
 
 // SetPriorityString sets the output priority by the name of a debug level
@@ -79,7 +77,7 @@ func (me *Logger) SetPriorityString(s string) error {
 	s = strings.ToUpper(s)
 	for i, name := range priorityName {
 		if name == s {
-			me.SetPriority(i)
+			me.SetPriority(int32(i))
 			return nil
 		}
 	}
