@@ -5,6 +5,7 @@ import (
 	"io"
 	"log"
 	"strings"
+	"sync"
 	"sync/atomic"
 )
 
@@ -12,6 +13,7 @@ import (
 type Logger struct {
 	priority int32
 	logger   *log.Logger
+	mu       sync.RWMutex
 }
 
 // New creates a new Logger.
@@ -24,23 +26,33 @@ func New(out io.Writer, prefix string, flag int, priority int32) *Logger {
 
 // SetPrefix sets the output prefix for the logger.
 func (me *Logger) SetPrefix(prefix string) {
+	me.mu.Lock()
+	defer me.mu.Unlock()
+
 	me.logger.SetPrefix(prefix)
 }
 
 // Prefix returns the current logger prefix
 func (me *Logger) Prefix() string {
-	return me.logger.Prefix()
+	me.mu.RLock()
+	defer me.mu.RUnlock()
+
+	prefix := me.logger.Prefix()
+	return prefix
 }
 
 func (me *Logger) setFullPrefix(priority int32) {
 	if me.logger.Flags()&Lpriority != 0 {
-		me.logger.SetPrefix(fmt.Sprintf("%s ", priorityName[priority]) + me.Prefix())
+		me.logger.SetPrefix(fmt.Sprintf("%s ", priorityName[priority]) + me.logger.Prefix())
 	}
 }
 
 // Calls Output to print to the logger.
 func (me *Logger) print(priority int32, v ...interface{}) {
 	if priority <= atomic.LoadInt32(&me.priority) {
+		me.mu.Lock()
+		defer me.mu.Unlock()
+
 		me.setFullPrefix(priority)
 		me.logger.Print(v...)
 	}
@@ -49,6 +61,9 @@ func (me *Logger) print(priority int32, v ...interface{}) {
 // Calls Output to printf to the logger.
 func (me *Logger) printf(priority int32, format string, v ...interface{}) {
 	if priority <= atomic.LoadInt32(&me.priority) {
+		me.mu.Lock()
+		defer me.mu.Unlock()
+
 		me.setFullPrefix(priority)
 		me.logger.Printf(format, v...)
 	}
@@ -57,6 +72,9 @@ func (me *Logger) printf(priority int32, format string, v ...interface{}) {
 // Calls Output to println to the logger.
 func (me *Logger) println(priority int32, v ...interface{}) {
 	if priority <= atomic.LoadInt32(&me.priority) {
+		me.mu.Lock()
+		defer me.mu.Unlock()
+
 		me.setFullPrefix(priority)
 		me.logger.Println(v...)
 	}
@@ -96,36 +114,54 @@ func (me *Logger) SetFlags(layouts int) {
 
 // Fatal prints the message it's given and quits the program
 func (me *Logger) Fatal(v ...interface{}) {
+	me.mu.Lock()
+	defer me.mu.Unlock()
+
 	me.setFullPrefix(Pfatal)
 	me.logger.Fatal(v...)
 }
 
 // Fatalf prints the message it's given and quits the program
 func (me *Logger) Fatalf(format string, v ...interface{}) {
+	me.mu.Lock()
+	defer me.mu.Unlock()
+
 	me.setFullPrefix(Pfatal)
 	me.logger.Fatalf(format, v...)
 }
 
 // Fatalln prints the message it's given and quits the program
 func (me *Logger) Fatalln(v ...interface{}) {
+	me.mu.Lock()
+	defer me.mu.Unlock()
+
 	me.setFullPrefix(Pfatal)
 	me.logger.Fatalln(v...)
 }
 
 // Panic prints the message it's given and panic()s the program
 func (me *Logger) Panic(v ...interface{}) {
+	me.mu.Lock()
+	defer me.mu.Unlock()
+
 	me.setFullPrefix(Pfatal)
 	me.logger.Panic(v...)
 }
 
 // Panicf prints the message it's given and panic()s the program
 func (me *Logger) Panicf(format string, v ...interface{}) {
+	me.mu.Lock()
+	defer me.mu.Unlock()
+
 	me.setFullPrefix(Pfatal)
 	me.logger.Panicf(format, v...)
 }
 
 // Panicln prints the message it's given and panic()s the program
 func (me *Logger) Panicln(v ...interface{}) {
+	me.mu.Lock()
+	defer me.mu.Unlock()
+
 	me.setFullPrefix(Pfatal)
 	me.logger.Panicln(v...)
 }
