@@ -18,12 +18,12 @@ func SetOutput(out io.Writer) {
 }
 
 // Priority returns the output priority for the standard logger.
-func Priority() int {
+func Priority() int32 {
 	return std.Priority()
 }
 
 // SetPriority sets the output priority for the standard logger.
-func SetPriority(priority int) {
+func SetPriority(priority int32) {
 	std.SetPriority(priority)
 }
 
@@ -32,7 +32,7 @@ func SetPriorityString(s string) error {
 	s = strings.ToUpper(s)
 	for i, name := range priorityName {
 		if name == s {
-			SetPriority(i)
+			SetPriority(int32(i))
 			return nil
 		}
 	}
