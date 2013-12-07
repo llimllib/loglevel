@@ -12,6 +12,7 @@ import (
 // Logger defines our wrapper around the system logger
 type Logger struct {
 	priority int32
+	prefix   string
 	logger   *log.Logger
 	mu       sync.RWMutex
 }
@@ -20,6 +21,7 @@ type Logger struct {
 func New(out io.Writer, prefix string, flag int, priority int32) *Logger {
 	return &Logger{
 		priority: priority,
+		prefix:   prefix,
 		logger:   log.New(out, prefix, flag),
 	}
 }
@@ -29,6 +31,7 @@ func (me *Logger) SetPrefix(prefix string) {
 	me.mu.Lock()
 	defer me.mu.Unlock()
 
+	me.prefix = prefix
 	me.logger.SetPrefix(prefix)
 }
 
@@ -37,13 +40,13 @@ func (me *Logger) Prefix() string {
 	me.mu.RLock()
 	defer me.mu.RUnlock()
 
-	prefix := me.logger.Prefix()
+	prefix := me.prefix
 	return prefix
 }
 
 func (me *Logger) setFullPrefix(priority int32) {
 	if me.logger.Flags()&Lpriority != 0 {
-		me.logger.SetPrefix(fmt.Sprintf("%s ", priorityName[priority]) + me.logger.Prefix())
+		me.logger.SetPrefix(fmt.Sprintf("%s ", priorityName[priority]) + me.prefix)
 	}
 }
 
